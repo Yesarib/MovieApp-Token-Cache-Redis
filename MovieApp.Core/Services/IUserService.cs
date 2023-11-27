@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MovieApp.Core.Services
 {
-    public interface IUserService:IServiceGeneric<User,UserDto>
+    public interface IUserService
     {
         Task<ResponseDto<UserDto>> CreateUserAync(RegisterDto registerDto);
         Task<ResponseDto<UserDto>> GetUserByName(string userName);
