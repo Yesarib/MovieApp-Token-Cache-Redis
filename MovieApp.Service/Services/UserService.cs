@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper.Internal.Mappers;
+using Microsoft.AspNetCore.Identity;
 using MovieApp.Core.Dtos;
 using MovieApp.Core.Models;
 using MovieApp.Core.Services;
@@ -35,7 +36,8 @@ namespace MovieApp.Service.Services
         public async Task<ResponseDto<UserDto>> GetUserByName(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
-            if(user == null)
+
+            if (user == null)
             {
                 return ResponseDto<UserDto>.Fail("UserName not found", 404, true);
             }

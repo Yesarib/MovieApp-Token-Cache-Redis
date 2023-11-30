@@ -44,6 +44,7 @@ namespace MovieApp.Service.Services
             {
                 new Claim(ClaimTypes.NameIdentifier,user.Id),
                 new Claim(ClaimTypes.Email,user.Email),
+                new Claim(ClaimTypes.Name,user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -68,7 +69,7 @@ namespace MovieApp.Service.Services
             var refreshTokenExpiration = DateTime.Now.AddMinutes(_customTokenOptions.RefreshTokenExpiration);
             var securityKey = SignService.GetSymmetricSecurityKey(_customTokenOptions.SecurityKey);
 
-            SigningCredentials signingCredentials = new(securityKey, SecurityAlgorithms.Sha256);
+            SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             JwtSecurityToken jwtSecurityToken = new(
                 issuer: _customTokenOptions.Issuer,
