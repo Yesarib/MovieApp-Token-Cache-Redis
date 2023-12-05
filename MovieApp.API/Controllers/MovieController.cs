@@ -12,35 +12,41 @@ namespace MovieApp.API.Controllers
     [ApiController]
     public class MovieController : CustomBaseController
     {
-        private readonly IServiceGeneric<Movie,MovieDto> _serviceGeneric;
+        private readonly IMovieService _movieService;
 
-        public MovieController(IServiceGeneric<Movie, MovieDto> serviceGeneric)
+        public MovieController(IMovieService movieService)
         {
-            _serviceGeneric = serviceGeneric;
+            _movieService = movieService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetMovies()
         {
-            return ActionResultInstance(await _serviceGeneric.GetAllAsync());
+            return ActionResultInstance(await _movieService.GetAllAsync());
         }
 
         [HttpPost]
         public async Task<IActionResult> AddMovie(MovieDto movieDto)
         {
-            return ActionResultInstance(await _serviceGeneric.AddAsync(movieDto));
+            return ActionResultInstance(await _movieService.AddAsync(movieDto));
         }
 
         [HttpPut]
         public async Task<IActionResult> UpdateMovie(MovieDto movieDto)
         {
-            return ActionResultInstance(await _serviceGeneric.Update(movieDto, movieDto.Id));
+            return ActionResultInstance(await _movieService.Update(movieDto, movieDto.Id));
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMovie(int id)
         {
-            return ActionResultInstance(await _serviceGeneric.Remove(id));
+            return ActionResultInstance(await _movieService.Remove(id));
+        }
+
+        [HttpGet("getMoviesFromCache")]
+        public async Task<IActionResult> GetMoviesFromCache()
+        {
+            return ActionResultInstance(await _movieService.GetMovies());
         }
     }
 }

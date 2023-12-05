@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using MovieApp.Core.Configuration;
 using MovieApp.Core.Models;
 using MovieApp.Core.Repositories;
@@ -25,9 +26,12 @@ builder.Services.Configure<CustomTokenOptions>(builder.Configuration.GetSection(
 builder.Services.AddScoped<IAuthenticationService,AuthenticationService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IMovieService, MovieService>();
+builder.Services.AddScoped<IMovieRepository, MovieRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>),typeof(GenericRepository<>));
 builder.Services.AddScoped(typeof(IServiceGeneric<,>),typeof(GenericService<,>));
 builder.Services.AddScoped<IUnitOfWork,UnitOfWork>();
+builder.Services.AddMemoryCache();
 
 // Authentication
 builder.Services.AddAuthentication(options =>
