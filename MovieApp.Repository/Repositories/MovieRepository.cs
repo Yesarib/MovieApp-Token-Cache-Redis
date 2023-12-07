@@ -24,16 +24,8 @@ namespace MovieApp.Repository.Repositories
 
         public async Task<List<Movie>> GetMovies()
         {
-            if (_memoryCache.TryGetValue(MovieListCacheKey, out List<Movie> movies))
-            {
-                return movies;
-            }
-
-            movies = (await base.GetAllAsync()).ToList();
-
-            _memoryCache.Set(MovieListCacheKey, movies, TimeSpan.FromMinutes(10));
-            
-            return movies;
+            var movies = await base.GetAllAsync();
+            return movies.ToList();
         }
     }
 }

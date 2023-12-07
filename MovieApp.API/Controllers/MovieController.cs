@@ -13,10 +13,11 @@ namespace MovieApp.API.Controllers
     public class MovieController : CustomBaseController
     {
         private readonly IMovieService _movieService;
-
-        public MovieController(IMovieService movieService)
+        private readonly IMovieServiceForRedis _movieServiceForRedis;
+        public MovieController(IMovieService movieService, IMovieServiceForRedis movieServiceForRedis)
         {
             _movieService = movieService;
+            _movieServiceForRedis = movieServiceForRedis;
         }
 
         [HttpGet]
@@ -47,6 +48,22 @@ namespace MovieApp.API.Controllers
         public async Task<IActionResult> GetMoviesFromCache()
         {
             return ActionResultInstance(await _movieService.GetMovies());
+        }
+
+        [HttpPost("addRedis")]
+        public async Task<IActionResult> AddMovieToRedis(Movie movie)
+        {
+            return Ok(await _movieServiceForRedis.CreateAsync(movie));
+        }
+        [HttpGet("getMoviesFromRedis")]
+        public async Task<IActionResult> GetMoviesFromRedis()
+        {
+            return Ok(await _movieServiceForRedis.GetAsync());
+        }
+        [HttpGet("getByIdFromRedis/{id}")]
+        public async Task<IActionResult> GetMoviesByIdFromRedis(int id)
+        {
+            return Ok(await _movieServiceForRedis.GetByIdAsync(id));
         }
     }
 }
