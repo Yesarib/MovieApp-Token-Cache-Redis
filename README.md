@@ -14,7 +14,7 @@ Ensure that SqlServer is running and accessible. Update the SQL connection detai
 ```` "SqlServer" :"your sql server connection string" ````
 4. Configure Redis:  
 Ensure that Redis is running and accessible. Update the Redis connection details in the appsettings.json file:  
-   ``` "CacheOptions": {`"Url": "yoururl:port"  }```
+   ``` "CacheOptions": {"Url": "yoururl:port"  }```
 
 ### Usage
 1. Obtain JWT Token:  
